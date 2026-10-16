@@ -2,9 +2,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    // TASK 6
-    public static <T> T getItem(T[] items, int index) {
-
+    // TASK 6: Returns an item or null when the index is invalid.
+    public static Payable getItem(Payable[] items, int index) {
         if (index < 0 || index >= items.length) {
             return null;
         }
@@ -12,7 +11,7 @@ public class Main {
         return items[index];
     }
 
-    // TASK 6
+    // TASK 6: Trims, capitalizes, and replaces hyphens in an ID.
     public static String formatId(String id) {
         return id.trim()
                 .toUpperCase()
@@ -21,8 +20,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // TASK 5: Stores different objects using Payable references.
         Payable[] list = {
-
                 new Teacher(
                         "Ana Reyes",
                         "T-01",
@@ -57,12 +56,10 @@ public class Main {
         };
 
         Scanner sc = new Scanner(System.in);
-
-        // TASK 5
         int choice;
 
+        // TASK 5: Repeats the menu until the user enters zero.
         do {
-
             System.out.println("\n===== MENU =====");
             System.out.println("1. Display all");
             System.out.println("2. Search by keyword");
@@ -76,27 +73,25 @@ public class Main {
             switch (choice) {
 
                 case 1:
-
-                    for (Payable p : list) {
-                        p.printReport();
+                    // Displays every object using printReport().
+                    for (Payable item : list) {
+                        item.printReport();
                     }
-
                     break;
 
                 case 2:
-
+                    // Searches partially and ignores letter case.
                     System.out.print("Enter keyword: ");
-                    String keyword = sc.nextLine();
+                    String keyword = sc.nextLine().toLowerCase();
 
                     boolean found = false;
 
-                    for (Payable p : list) {
-
-                        if (p.getLabel()
+                    for (Payable item : list) {
+                        if (item.getLabel()
                                 .toLowerCase()
-                                .contains(keyword.toLowerCase())) {
+                                .contains(keyword)) {
 
-                            p.printReport();
+                            item.printReport();
                             found = true;
                         }
                     }
@@ -104,24 +99,20 @@ public class Main {
                     if (!found) {
                         System.out.println("No match found.");
                     }
-
                     break;
 
                 case 3:
-
+                    // Computes total pay and finds the highest pay.
                     double total = 0;
-                    double highest = 0;
-                    String highestName = "";
+                    Payable highest = list[0];
 
-                    for (Payable p : list) {
+                    for (Payable item : list) {
+                        total += item.computePay();
 
-                        double pay = p.computePay();
+                        if (item.computePay()
+                                > highest.computePay()) {
 
-                        total += pay;
-
-                        if (pay > highest) {
-                            highest = pay;
-                            highestName = p.getLabel();
+                            highest = item;
                         }
                     }
 
@@ -132,63 +123,62 @@ public class Main {
 
                     System.out.printf(
                             "Highest: %s (%.2f)%n",
-                            highestName,
-                            highest
+                            highest.getLabel(),
+                            highest.computePay()
                     );
-
                     break;
 
                 case 0:
-
                     System.out.println("Goodbye!");
                     break;
 
                 default:
-
                     System.out.println("Invalid option.");
             }
 
         } while (choice != 0);
 
-        // TASK 6
-
+        // TASK 6: Tests getItem() with index 2.
         System.out.println("\n=== TASK 6 ===");
-
         System.out.println("getItem(2):");
 
         Payable item = getItem(list, 2);
 
-        if (item != null) {
-            item.printReport();
-        } else {
+        if (item == null) {
             System.out.println("Invalid selection");
+        } else {
+            item.printReport();
         }
 
-        System.out.println("\ngetItem(10):");
+        // TASK 6: Tests getItem() with invalid index 10.
+        System.out.println("getItem(10):");
 
         item = getItem(list, 10);
 
-        if (item != null) {
-            item.printReport();
-        } else {
+        if (item == null) {
             System.out.println("Invalid selection");
+        } else {
+            item.printReport();
         }
 
-        System.out.println("\ngetItem(-1):");
+        // TASK 6: Tests getItem() with invalid index -1.
+        System.out.println("getItem(-1):");
 
         item = getItem(list, -1);
 
-        if (item != null) {
-            item.printReport();
-        } else {
+        if (item == null) {
             System.out.println("Invalid selection");
+        } else {
+            item.printReport();
         }
 
+        // TASK 6: Tests the required String method.
         System.out.println(
-                "\nformatId(\" t-01 \") -> "
+                "formatId(\" t-01 \") -> "
                         + formatId(" t-01 ")
         );
 
+        // Displays the number of Staff objects.
         System.out.println(
                 "Staff count: "
                         + Staff.getStaffCount()
