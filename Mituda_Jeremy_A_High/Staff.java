@@ -1,3 +1,4 @@
+// TASK 1: Stores the common information and behavior of staff members.
 public abstract class Staff implements Payable {
 
     protected String name;
@@ -8,6 +9,7 @@ public abstract class Staff implements Payable {
 
     private static int staffCount = 0;
 
+    // Sets staff information and validates the base salary.
     public Staff(String name, String staffId, double baseSalary) {
         this.name = name;
         this.staffId = staffId;
@@ -22,23 +24,29 @@ public abstract class Staff implements Payable {
         staffCount++;
     }
 
+    // Returns the number of Staff objects created.
     public static int getStaffCount() {
         return staffCount;
     }
 
+    // Prints the staff ID and name.
     @Override
     public void printReport() {
         System.out.println("[" + staffId + "] " + name);
     }
 
+    // Returns the name used for searching.
     @Override
     public String getLabel() {
         return name;
     }
 
+    // Computes pay after subtracting 10% tax.
     public double computeNet() {
         return computePay() - (computePay() * TAX_RATE);
     }
 
+    // Requires each Staff subclass to compute its own pay.
+    @Override
     public abstract double computePay();
 }
